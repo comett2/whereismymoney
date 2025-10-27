@@ -1,0 +1,32 @@
+# --- Global ignore for the full project ---
+
+# macOS / system files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Logs
+*.log
+logs/
+
+# Docker
+docker-compose.override.yml
+docker-data/
+*.pid
+
+# Environment files
+.env
+.env.*
+
+# Build outputs
+dist/
+build/
+out/
+
+# Node and Gradle caches (handled locally)
+**/node_modules/
+**/.gradle/
