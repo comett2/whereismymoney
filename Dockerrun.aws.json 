@@ -1,4 +1,17 @@
 {
-  "AWSEBDockerrunVersion": 2,
-  "containerDefinitions": []
+  "AWSEBDockerrunVersion": 3,
+  "containerDefinitions": [
+    {
+      "name": "backend",
+      "image": "896015496445.dkr.ecr.eu-central-1.amazonaws.com/wimm-backend:latest",
+      "essential": true,
+      "portMappings": [{ "hostPort": 8080, "containerPort": 8080 }]
+    },
+    {
+      "name": "frontend",
+      "image": "896015496445.dkr.ecr.eu-central-1.amazonaws.com/wimm-frontend:latest",
+      "essential": true,
+      "portMappings": [{ "hostPort": 80, "containerPort": 80 }]
+    }
+  ]
 }

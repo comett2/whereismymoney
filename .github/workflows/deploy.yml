@@ -8,9 +8,12 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up AWS credentials
@@ -20,39 +23,17 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Build Docker image
-        run: docker build -t wimm-backend ./backend
-
-      - name: Log in to Amazon ECR
+      - name: Log in to ECR
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Tag and push image to ECR
-        env:
-          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-        run: |
-          docker tag wimm-backend:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/wimm-backend:latest
-          docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/wimm-backend:latest
+      - name: Build Docker images
+        run: make ci-build
+
+      - name: Push Docker images to ECR
+        run: make ci-push
 
       - name: Generate Dockerrun.aws.json
-        env:
-          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-        run: |
-          cat <<EOF > Dockerrun.aws.json
-          {
-            "AWSEBDockerrunVersion": 1,
-            "Image": {
-              "Name": "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/wimm-backend:latest",
-              "Update": "true"
-            },
-            "Ports": [
-              {
-                "ContainerPort": "8080"
-              }
-            ]
-          }
-          EOF
+        run: make ci-generate-dockerrun
 
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v22

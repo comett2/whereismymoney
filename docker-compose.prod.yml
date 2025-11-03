@@ -1,0 +1,16 @@
+version: "3"
+services:
+  backend:
+    image: 896015496445.dkr.ecr.eu-central-1.amazonaws.com/wimm-backend:latest
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASS}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+  frontend:
+    image: 896015496445.dkr.ecr.eu-central-1.amazonaws.com/wimm-frontend:latest
+    ports:
+      - "80:80"
