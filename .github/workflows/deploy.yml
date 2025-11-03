@@ -33,6 +33,7 @@ jobs:
         run: make ci-push
 
       - name: Generate Dockerrun.aws.json
+        shell: bash
         run: make ci-generate-dockerrun
 
       - name: Deploy to Elastic Beanstalk
