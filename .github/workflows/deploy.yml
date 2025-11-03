@@ -61,4 +61,6 @@ jobs:
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: "wimm"
           environment_name: "wimm-env"
-          version_label: "build-${{ git_
+          version_label: "build-${{ github.run_number }}"
+          region: ${{ secrets.AWS_REGION }}
+          deployment_package: "Dockerrun.aws.json"
