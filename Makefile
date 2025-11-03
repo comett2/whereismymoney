@@ -42,7 +42,7 @@ ci-push:
 	docker push $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/wimm-frontend:latest
 
 ci-generate-dockerrun:
-	bash -c 'cat <<EOF > Dockerrun.aws.json
+	bash -c "cat <<EOF > Dockerrun.aws.json
 	{
 	"AWSEBDockerrunVersion": 3,
 	"containerDefinitions": [
@@ -60,4 +60,4 @@ ci-generate-dockerrun:
 	}
 	]
 	}
-	EOF'
+	EOF"
