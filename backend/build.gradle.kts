@@ -32,6 +32,8 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation(kotlin("stdlib"))
+    implementation("com.h2database:h2")
+
 }
 
 tasks.withType<Test> {
