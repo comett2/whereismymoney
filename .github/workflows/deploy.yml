@@ -39,10 +39,11 @@ jobs:
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
-          echo '{
+          cat <<EOF > Dockerrun.aws.json
+          {
             "AWSEBDockerrunVersion": 1,
             "Image": {
-              "Name": "'$AWS_ACCOUNT_ID'.dkr.ecr.'$AWS_REGION'.amazonaws.com/wimm-backend:latest",
+              "Name": "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/wimm-backend:latest",
               "Update": "true"
             },
             "Ports": [
@@ -50,7 +51,8 @@ jobs:
                 "ContainerPort": "8080"
               }
             ]
-          }' > Dockerrun.aws.json
+          }
+          EOF
 
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v22
