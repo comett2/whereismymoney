@@ -36,6 +36,9 @@ jobs:
         shell: bash
         run: make ci-generate-dockerrun
 
+      - name: Check generated Dockerrun
+        run: cat Dockerrun.aws.json
+
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v22
         with:
